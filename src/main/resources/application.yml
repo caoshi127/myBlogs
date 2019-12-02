@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    #数据源基本配置(使用alibaba Druid数据连接池)
+    username: root
+    password: 123123
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/springboot_demo
+    type: com.alibaba.druid.pool.DruidDataSource
+    #   数据源其他配置
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    #   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,log4j
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+  thymeleaf:
+    enabled: true
+    cache: false
+
+#mybatis相关配置
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  #  config-location: classpath:mybatis/mybatis-config.xml   #Mybatis 核心配置文件位置, 通常不用配置!! 因为跟上面的log4j日志冲突
+  mapper-locations: classpath:mybatis/mapper/*.xml        #mapper.xml配置文件位置
+  type-aliases-package: com.caoshi.myblogs.domain
+
