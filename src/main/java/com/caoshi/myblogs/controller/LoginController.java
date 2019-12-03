@@ -1,11 +1,18 @@
 package com.caoshi.myblogs.controller;
 
+import com.caoshi.myblogs.constant.ResultObj;
 import com.caoshi.myblogs.domain.User;
 import com.caoshi.myblogs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * 登录控制器
+ * @author CaoShi
+ * @time 2019/12/3 18:15
+ */
 @Controller
 @RequestMapping("login")
 public class LoginController {
@@ -19,14 +26,14 @@ public class LoginController {
     }
 
     @RequestMapping("login")
-    public String login(User user) {
+    @ResponseBody
+    public ResultObj login(User user) {
         User loginUser = userService.userLogin(user);
         if (null != loginUser) {
-            return "redirect:blogs/blogsList.html";
+            return ResultObj.LOGIN_SUCCESS;
         } else {
-            return "redirect:index.html";
+            return ResultObj.LOGIN_ERROR;
         }
-
     }
 
 

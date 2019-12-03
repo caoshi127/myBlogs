@@ -1,111 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
-    <title>简洁大气快速登录注册模板</title>
+    <title>个人博客系统</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
-    <script type="text/javascript" src="/images/login.js"></script>
-    <link href="/css/login2.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" th:src="@{/js/jquery-2.1.0.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+      body {
+        background: url("../images/login_bg.jpg");
+      }
+      .container {
+        width: 400px;
+        background: white;
+        margin-top: 150px;
+        border:2px solid honeydew;
+        border-radius:15px;
+      }
+    </style>
+
+    <script type="text/javascript">
+      $(function () {
+
+        $("#login-btn").click(function () {
+          $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "/login/login",
+            data: $("#login-form").serialize(),
+            success: function (result) {
+              if (result.resultCode == "200") {
+                window.location.href = "/blogs/toBlogsList";
+              } else {
+                // 选中form表单下的所有输入框使其清空！！
+
+                alert("用户名或密码不正确！！");
+              }
+            },
+            error: function () {
+              alert("登录出错！！");
+            }
+          });
+        });
+      });
+    </script>
   </head>
 <body>
-<h1>登录个人博客系统<sup>2019</sup></h1>
-
-<div class="login" style="margin-top:50px;">
-
-  <div class="header">
-    <div class="switch" id="switch"><a class="switch_btn_focus" id="switch_qlogin" href="javascript:void(0);" tabindex="7">快速登录</a>
-      <a class="switch_btn" id="switch_login" href="javascript:void(0);" tabindex="8">快速注册</a><div class="switch_bottom" id="switch_bottom" style="position: absolute; width: 64px; left: 0px;"></div>
-    </div>
-  </div>
-
-  <div class="web_qr_login" id="web_qr_login" style="display: block; height: 235px;">
-
-    <!--登录-->
-    <div class="web_login" id="web_login">
-      <div class="login-box">
-        <div class="login_form">
-          <form action="" name="loginform" accept-charset="utf-8" id="login_form" class="loginForm" method="post"><input type="hidden" name="did" value="0"/>
-            <input type="hidden" name="to" value="log"/>
-            <div class="uinArea" id="uinArea">
-              <label class="input-tips" for="u">帐号：</label>
-              <div class="inputOuter" id="uArea">
-
-                <input type="text" id="u" name="username" class="inputstyle"/>
-              </div>
-            </div>
-            <div class="pwdArea" id="pwdArea">
-              <label class="input-tips" for="p">密码：</label>
-              <div class="inputOuter" id="pArea">
-
-                <input type="password" id="p" name="p" class="inputstyle"/>
-              </div>
-            </div>
-
-            <div style="padding-left:50px;margin-top:20px;"><input type="submit" value="登 录" style="width:150px;" class="button_blue"/></div>
-          </form>
-        </div>
-
-      </div>
-
-    </div>
-    <!--登录end-->
-  </div>
-
-  <!--注册-->
-  <div class="qlogin" id="qlogin" style="display: none; ">
-
-    <div class="web_login"><form name="form2" id="regUser" accept-charset="utf-8"  action="" method="post">
-      <input type="hidden" name="to" value="reg"/>
-      <input type="hidden" name="did" value="0"/>
-      <ul class="reg_form" id="reg-ul">
-        <div id="userCue" class="cue">快速注册请注意格式</div>
-        <li>
-
-          <label for="user"  class="input-tips2">用户名：</label>
-          <div class="inputOuter2">
-            <input type="text" id="user" name="user" maxlength="16" class="inputstyle2"/>
-          </div>
-
-        </li>
-
-        <li>
-          <label for="passwd" class="input-tips2">密码：</label>
-          <div class="inputOuter2">
-            <input type="password" id="passwd"  name="passwd" maxlength="16" class="inputstyle2"/>
-          </div>
-
-        </li>
-        <li>
-          <label for="passwd2" class="input-tips2">确认密码：</label>
-          <div class="inputOuter2">
-            <input type="password" id="passwd2" name="" maxlength="16" class="inputstyle2" />
-          </div>
-
-        </li>
-
-        <li>
-          <label for="qq" class="input-tips2">QQ：</label>
-          <div class="inputOuter2">
-
-            <input type="text" id="qq" name="qq" maxlength="10" class="inputstyle2"/>
-          </div>
-
-        </li>
-
-        <li>
-          <div class="inputArea">
-            <input type="button" id="reg"  style="margin-top:10px;margin-left:85px;" class="button_blue" value="同意协议并注册"/> <a href="#" class="zcxy" target="_blank">注册协议</a>
-          </div>
-
-        </li><div class="cl"></div>
-      </ul></form>
-
-
+<div class="container">
+  <h3 style="text-align: center;">欢迎登录个人博客系统</h3>
+  <form id="login-form" method="post">
+    <div class="form-group">
+      <label for="user">用户名：</label>
+      <input type="text" name="userName" class="form-control" id="user" placeholder="请输入用户名"/>
     </div>
 
+    <div class="form-group">
+      <label for="password">密码：</label>
+      <input type="password" name="password" class="form-control" id="password" placeholder="请输入密码"/>
+    </div>
 
+    <div class="form-inline">
+      <label for="vcode">验证码：</label>
+      <input type="text" name="verifycode" class="form-control" id="verifycode" placeholder="请输入验证码" style="width: 120px;"/>
+      <a href="javascript:refreshCode()"><img src="vcode" title="看不清点击刷新" id="vcode"/></a>
+    </div>
+    <hr/>
+    <div class="form-group" style="text-align: center;">
+      <input class="btn btn btn-primary" type="button" id="login-btn" value="登录">
+    </div>
+  </form>
+
+  <!-- 出错显示的信息框 -->
+  <div class="alert alert-warning alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" >
+      <span>&times;</span>
+    </button>
+    <strong id="err-msg"></strong>
   </div>
-  <!--注册end-->
 </div>
-<div class="jianyi">*推荐使用ie8或以上版本ie浏览器或Chrome内核浏览器访问本站</div>
-</body></html>
+</body>
+</html>

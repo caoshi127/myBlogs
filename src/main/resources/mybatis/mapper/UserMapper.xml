@@ -5,9 +5,9 @@
   <!--根据用户名和密码查询用户-->
   <select id="findUser" resultType="User">
     select
-    u.username, u.passeword
+      *
     from
-    t_user u
+    t_user
     where
     username = #{userName} and password = #{password}
   </select>
