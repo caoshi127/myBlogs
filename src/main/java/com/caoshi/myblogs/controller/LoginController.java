@@ -35,7 +35,6 @@ public class LoginController {
     }
 
     /**
-     *
      * @param username 用户输入的用户名
      * @param password 用户输入的密码
      * @param vcode 用户输入的验证码
@@ -45,19 +44,15 @@ public class LoginController {
     @RequestMapping("/login")
     @ResponseBody
     public ResultObj login(String username, String password, String vcode, HttpServletRequest request) {
-
-        System.out.println("LoginController.login" + username + "--" + password + "--" + vcode);
-
+        // System.out.println("LoginController.login" + username + "--" + password + "--" + vcode);
         User loginUser = new User(username, password);
         User user = userService.userLogin(loginUser);
         String vcodeStr = request.getSession().getAttribute("CHECKCODE_SESSION").toString();
         if (null != user && vcode.equalsIgnoreCase(vcodeStr)) {
+            request.getSession().setAttribute("user", user);
             return ResultObj.LOGIN_SUCCESS;
         } else {
-
-            System.out.println();
             return ResultObj.LOGIN_ERROR;
-
         }
     }
 
@@ -76,6 +71,13 @@ public class LoginController {
         }
     }
 
-
+    /**
+     * 跳转到博客系统首页
+     * @return
+     */
+    @RequestMapping("toMain")
+    public String toMain() {
+        return "/blogs/main";
+    }
 
 }

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>登录个人博客系统首页</title>
+  <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+  <style type="text/css">
+    body {
+      background: url("../images/login_bg.jpg");
+    }
+    .login-form-box {
+      width: 400px;
+      margin:200px auto;
+      background: white;
+      border:2px solid honeydew;
+      border-radius:10px;
+    }
+    .layui-form-item {
+      margin-top: 20px;
+    }
+    .vcode-img {
+      margin-left: 10px;
+      padding-top: 4px;
+    }
+  </style>
+</head>
+<body>
+<div class="login-form-box">
+<form class="layui-form" id="login-form">
+  <h3 style="text-align: center;" class="layui-form-item">
+    欢迎登录个人博客系统
+  </h3>
+  <div class="layui-form-item">
+    <label class="layui-form-label">用户名：</label>
+    <div class="layui-input-inline">
+      <input type="text" name="username" id="username" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">密码：</label>
+    <div class="layui-input-inline">
+      <input type="password" name="password" id="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">验证码：</label>
+    <div class="layui-input-inline" style="width: 120px">
+      <input type="text" id="vcode" name="vcode" required lay-verify="required" placeholder="请输入验证码" autocomplete="off" class="layui-input">
+    </div>
+    <a href="javascript:refreshCode();">
+      <img src="/login/code" title="看不清点击刷新" id="vcode-img" class="vcode-img"/>
+    </a>
+  </div>
+  <div id="login-err-box"></div>
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button type="button" class="layui-btn" lay-submit="" lay-filter="formDemo" id="login-btn">登录</button>
+      <button type="reset" class="layui-btn layui-btn-primary" style="margin-left: 30px">重置</button>
+    </div>
+  </div>
+</form>
+</div>
+
+<script type="text/javascript" th:src="@{/layui/layui.all.js}"></script>
+<script type="text/javascript">
+  /**
+   * 刷新验证码
+   */
+  function refreshCode() {
+    document.getElementById("vcode-img").src = "/login/code?time=" + new Date().getTime();
+  }
+
+  layui.use(['jquery', 'form', 'layer'], function () {
+    var $ = layui.jquery,
+        layer = layui.layer;
+    /**
+     * 登录
+     */
+    $("#login-btn").on('click', function () {
+      var username = $("#username").val();
+      var password = $("#password").val();
+      var checkCode = $("#vcode").val();
+      var code = "";
+      if (!(username === "") && !(password === "") && !(checkCode === "")) {
+        $.ajax({
+          type: "POST",
+          dataType: "json",
+          url: "/login/login",
+          data: $("#login-form").serialize(),
+          success: function (result) {
+            code = result.resultCode;
+            if (code === '200') {
+              window.location.href = "/login/toMain";
+            } else if (code === '500') {
+              layer.msg('用户名或密码输入错误!');
+            }
+          },
+          error: function () {
+            alert("登录出错！！");
+          }
+        });
+      }
+    });   // 登录方法结束
+  });
+</script>
+</body>
+</html>

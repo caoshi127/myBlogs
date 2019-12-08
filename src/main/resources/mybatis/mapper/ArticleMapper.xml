@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caoshi.myblogs.mapper.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.caoshi.myblogs.domain.Article">
+    <result column="article_id" jdbcType="INTEGER" property="articleId" />
+    <result column="article_title" jdbcType="VARCHAR" property="articleTitle" />
+    <result column="article_user_id" jdbcType="INTEGER" property="articleUserId" />
+    <result column="article_tag" jdbcType="VARCHAR" property="articleTag" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.caoshi.myblogs.domain.Article">
+    <result column="article_content" jdbcType="LONGVARCHAR" property="articleContent" />
+  </resultMap>
+  <sql id="Blob_Column_List">
+    article_content
+  </sql>
+
+  <insert id="insert" parameterType="com.caoshi.myblogs.domain.Article">
+    insert into t_article (article_id, article_title, article_user_id,
+      article_tag, article_content)
+    values (default, #{articleTitle,jdbcType=VARCHAR}, #{articleUserId,jdbcType=INTEGER},
+      #{articleTag,jdbcType=VARCHAR}, #{articleContent,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.caoshi.myblogs.domain.Article">
+    insert into t_article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="articleId != null">
+        article_id,
+      </if>
+      <if test="articleTitle != null">
+        article_title,
+      </if>
+      <if test="articleUserId != null">
+        article_user_id,
+      </if>
+      <if test="articleTag != null">
+        article_tag,
+      </if>
+      <if test="articleContent != null">
+        article_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="articleId != null">
+        #{articleId,jdbcType=INTEGER},
+      </if>
+      <if test="articleTitle != null">
+        #{articleTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="articleUserId != null">
+        #{articleUserId,jdbcType=INTEGER},
+      </if>
+      <if test="articleTag != null">
+        #{articleTag,jdbcType=VARCHAR},
+      </if>
+      <if test="articleContent != null">
+        #{articleContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <!--根据博客文章标题查询所有博客文章-->
+  <select id="findAllByArticleTag" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+    select
+      a.article_id, a.article_title, a.article_user_id,
+      a.article_content, a.article_tag
+    from t_article a
+    where
+      a.article_tag = #{articleTag,jdbcType=VARCHAR}
+  </select>
+
+</mapper>
