@@ -11,4 +11,13 @@
     where
     username = #{userName} and password = #{password}
   </select>
+
+  <!--修改密码-->
+  <update id="updatePassword">
+    update
+    t_user
+    set password = #{password}
+    where id = #{userId}
+  </update>
+
 </mapper>

@@ -49,7 +49,7 @@
       </div>
 
       <div class="layui-form-item">
-        <button class="layui-btn" lay-submit="">发表博客</button>
+        <button class="layui-btn" lay-filter="publish" lay-submit="">发表博客</button>
         <button type="button" id="clear" class="layui-btn layui-btn-primary" style="margin-left: 50px">清空内容</button>
       </div>
     </form>
@@ -64,6 +64,18 @@
     $('#clear').on('click', function () {
       $('#content').val("");
     });
+
+    /**
+     * 发表博客
+     */
+    form.on("submit(publish)", function () {
+      $(this).text("博客发表ing...").attr("disabled","disabled").addClass("layui-disabled");
+      setTimeout(function(){
+        $("#add-art-form").submit();
+      }, 1000);
+      return false;
+    });
+
   });
 </script>
 </body>

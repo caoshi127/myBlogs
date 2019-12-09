@@ -69,4 +69,14 @@
       a.article_tag = #{articleTag,jdbcType=VARCHAR}
   </select>
 
+  <!--根据用户ID查询用户的博客文章-->
+  <select id="findByArticleUerId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+    select
+      a.article_id, a.article_title, a.article_user_id,
+      a.article_content, a.article_tag
+     from t_article a
+     where
+     a.article_user_id = #{articleUserId,jdbcType=INTEGER}
+  </select>
+
 </mapper>

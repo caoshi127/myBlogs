@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -78,6 +79,17 @@ public class LoginController {
     @RequestMapping("toMain")
     public String toMain() {
         return "/blogs/main";
+    }
+
+    /**
+     * 退出登录
+     * @param session
+     * @return
+     */
+    @RequestMapping("/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("user");
+        return "/system/login";
     }
 
 }

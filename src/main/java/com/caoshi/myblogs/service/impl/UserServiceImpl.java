@@ -16,4 +16,9 @@ public class UserServiceImpl implements UserService {
     public User userLogin(User user) {
         return userMapper.findUser(user);
     }
+
+    @Override
+    public void updatePwd(String password, Integer userId) {
+        userMapper.updatePassword(password, userId);
+    }
 }

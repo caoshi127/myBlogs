@@ -29,9 +29,7 @@ public class ArticleServiceImpl implements ArticleService {
     String[] tagArr = new String[] {"watchers", "career", "python", "java", "web"};
     // 产生两个[0, 5) 之间的不同随机整数
     List<Integer> list = MyUtils.getRandomNumList(2, 0, 5);
-
-    System.out.println("ArticleServiceImpl.getRecoArticles ---------------  " + list);
-
+    // System.out.println("ArticleServiceImpl.getRecoArticles ---------------  " + list);
     List<Article> articleList = new ArrayList<>();
     for (Integer i : list) {
       List<Article> list1 = articleMapper.findAllByArticleTag(tagArr[i]);
@@ -43,6 +41,11 @@ public class ArticleServiceImpl implements ArticleService {
   @Override
   public int addArticle(Article article) {
     return articleMapper.insert(article);
+  }
+
+  @Override
+  public List<Article> getByArticleUerId(Integer articleUserId) {
+    return articleMapper.findByArticleUerId(articleUserId);
   }
 
 

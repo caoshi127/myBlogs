@@ -10,5 +10,6 @@ public interface UserMapper {
     User findUser(User user);
 
 
+    void updatePassword(String password, Integer userId);
 
 }

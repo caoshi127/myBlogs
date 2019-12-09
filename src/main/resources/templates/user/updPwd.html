@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+  <style type="text/css">
+    .layui-input-block {
+      width: 200px;
+    }
+
+    #upd-pwd-box {
+      margin-top: 40px;
+      margin-left: 20px;
+    }
+
+    .layui-btn {
+      margin-left: 30px;
+    }
+  </style>
+</head>
+<body>
+<div id="upd-pwd-box">
+  <form class="layui-form layui-form-pane" id="upd-pwd-form" action="/user/updPwd">
+    <div class="layui-form-item">
+      <label class="layui-form-label">新密码: </label>
+      <div class="layui-input-block">
+        <input type="password" id="new-pwd" autocomplete="off" placeholder="请输入新密码" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label">确认新密码: </label>
+      <div class="layui-input-block">
+        <input type="password" id="ver-new-pwd" name="password" autocomplete="off" placeholder="请再次输入新密码" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <button type="button" class="layui-btn" lay-filter="update" lay-submit="">保存修改</button>
+    </div>
+  </form>
+</div>
+<script type="text/javascript" th:src="@{/layui/layui.all.js}"></script>
+<script type="text/javascript">
+  layui.use(['layer', 'jquery', 'form'], function () {
+    var layer = layui.layer,
+        $ = layui.jquery,
+        form = layui.form;
+    // 确保两次输入的密码相同
+    if ($('#new-pwd').val() === $('#ver-new-pwd').val()) {
+
+      form.on("submit(update)", function () {
+        $(this).text("修改密码ing...").attr("disabled","disabled").addClass("layui-disabled");
+        setTimeout(function(){
+          $("#upd-pwd-form").submit();
+        }, 1000);
+        return false;
+      });
+    } else {
+      $(':password').val("");
+      layer.msg("两次输入的密码不一致, 请重新输入");
+    }
+  });
+</script>
+</body>
+</html>

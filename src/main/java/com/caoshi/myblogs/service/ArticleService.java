@@ -30,6 +30,13 @@ public interface ArticleService {
    */
   int addArticle(Article article);
 
+  /**
+   * 根据用户ID查询文章
+   * @param articleUserId
+   * @return
+   */
+  List<Article> getByArticleUerId(Integer articleUserId);
+
 
 
 }

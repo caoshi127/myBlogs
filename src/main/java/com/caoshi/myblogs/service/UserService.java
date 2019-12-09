@@ -11,4 +11,12 @@ public interface UserService {
      */
     User userLogin(User user);
 
+
+  /**
+   * 用户修改密码
+   * @param password
+   * @param id
+   */
+  void updatePwd(String password, Integer userId);
+
 }
